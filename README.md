@@ -1,5 +1,5 @@
 # Learning how to use git NOTES
-
+This repo can also be used for testing new commands
 # Examples
 1. Git init is used for creating a new repo or reinitializing an existing repo.
 ```
