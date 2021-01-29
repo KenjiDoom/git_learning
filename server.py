@@ -5,9 +5,10 @@ HREADER = 64
 PORT = 5050
 # Getting Local IPV4 IP Address 
 SERVER = socket.gethostbyname(socket.gethostname())
-# print(SERVER)
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
+DISCONNECT_MESSAGE = "DISCONNCTED!"
+
 
 
 #AF_INET = Stands for IPV4 type
@@ -21,13 +22,20 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        msg_length = int(msg_length)
-        msg = conn.recv(msg_length.decode(FORMAT)
-        print(f"{addr}, {msg}")
+        msg_length = int(msg_length) # Converting into a int, but why?
+        msg = conn.recv(msg_length).decode(FORMAT)
+        if msg == DISCONNECT_MESSAGE:
+            connected = False
+
+        print(f"{addr} {msg}")
+
+    conn.close()
+
 
 def start():
     server.listen()
-    while true: 
+    print(f"Server is listeing on {SERVER}")
+    while True: 
         # addr = address bound to the socket on the other end (PORT AND IP) INFO
         # conn = new socket object usable to send and rev data
         conn, addr = server.accept()
