@@ -17,17 +17,19 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR) 
 
 def handle_client(conn, addr):
-    print("New Connection {addr} connected.") 
+    #print(f"New Connection {addr} connected.") 
     
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        msg_length = int(msg_length) # Converting into a int, but why?
-        msg = conn.recv(msg_length).decode(FORMAT)
-        if msg == DISCONNECT_MESSAGE:
-            connected = False
+        if msg_length:
+            msg_length = int(msg_length)
+            msg = conn.recv(msg_length).decode(FORMAT)
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
 
-        print(f"{addr} {msg}")
+            print(f"[{addr}] {msg}")
+            conn.send("Msg received".encode(FORMAT))
 
     conn.close()
 
